@@ -1,0 +1,5 @@
+{
+  "projectId": "sandbox",
+  "sourceDataset": "covid19_nyt",
+  "sourceTable": "us_states"
+}
