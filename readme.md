@@ -4,7 +4,7 @@ The CovidDelta pipeline reads Covid19 data from the [The New York Times US Coron
 
 The pipeline calculates the weekly rate of change in confirmed cases and deaths per state in the United States.
 
-Note: This is a personal project which assumes the provided data is accurate. Also, bugs might be present. This project is not to be used for extracting serious conclusions about anything Covid19 related.
+Note: This is a personal project which assumes the source data is accurate without any further investigation. Also, bugs might be present. This project is not to be used for extracting serious conclusions about anything Covid19 related.
 
 <h3>Local Execution</h3>
 
