@@ -1,6 +1,10 @@
 <h1>Covid Delta</h1>
 
-This pipeline reads Covid data from the [The New York Times US Coronavirus Database](https://console.cloud.google.com/marketplace/product/the-new-york-times/covid19_us_cases) and calculates the weekly rate of change in confirmed cases and deaths per state in the United States.
+The CovidDelta pipeline reads Covid19 data from the [The New York Times US Coronavirus Database](https://console.cloud.google.com/marketplace/product/the-new-york-times/covid19_us_cases) dataset, which is made available as a [BigQuery Public Dataset](https://console.cloud.google.com/marketplace/browse?filter=solution-type:dataset&filter=category:covid19) for Covid19. 
+
+The pipeline calculates the weekly rate of change in confirmed cases and deaths per state in the United States.
+
+Note: This is a personal project which assumes the provided data is accurate. Also, bugs might be present. This project is not to be used for extracting serious conclusions about anything Covid19 related.
 
 <h3>Local Execution</h3>
 
