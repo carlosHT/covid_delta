@@ -4,7 +4,7 @@ The CovidDelta pipeline reads Covid19 data from the [The New York Times US Coron
 
 The pipeline calculates the weekly rate of change in confirmed cases and deaths per state in the United States.
 
-Note: This is a personal project which assumes the source data is accurate without any further investigation. Also, bugs might be present. This project is not to be used for extracting serious conclusions about anything Covid19 related.
+<sub>Note: This is a personal project which assumes the source data is accurate without any further investigation. Also, bugs might be present. This project is not to be used for extracting serious conclusions about anything Covid19 related.</sub>
 
 <h3>Local Execution</h3>
 
@@ -28,7 +28,7 @@ TODO: write this.
         --templateLocation=
    ```
    
-   <sub><sup>
+   <sub>
    Note: The "pipelineOptionBundle" defines a set of multiple options that are passed to the pipeline. Each option bundle is associated to a JSON file under the "deployment/pipeline_option_bundles" folder.
    Some options have to be explicitly passed on the command line. 
-   </sup></sub>
+   </sub>
