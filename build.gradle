@@ -1,9 +1,12 @@
 plugins {
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
     id 'java'
+    id 'application'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'herrera_treib'
+version 'LOCAL-SNAPSHOT'
+mainClassName = 'com.herreratreib.gcp.covid.delta.CovidDeltaPipeline'
 
 sourceCompatibility = 1.8
 
@@ -12,12 +15,40 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    //LOGGING
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
+    //APACHE BEAM
     compile group: 'org.apache.beam', name: 'beam-sdks-java-core', version: '2.22.0'
     compile group: 'org.apache.beam', name: 'beam-sdks-java-io-google-cloud-platform', version: '2.22.0'
     runtime group: 'org.apache.beam', name: 'beam-runners-google-cloud-dataflow-java', version: '2.22.0'
     runtime group: 'org.apache.beam', name: 'beam-runners-direct-java', version: '2.22.0'
 
+    //GOOGLE
     compile group: 'com.google.cloud', name: 'google-cloud-bigquery', version: '1.56.0'
+
+    //UNIT TESTS
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+//Necessary for option bundle files to be available as resources.
+sourceSets.main.resources.srcDirs += ["deployment/pipeline_option_bundles"]
+sourceSets.main.resources.includes += ["**/*.json"]
+
+//Necessary for local execution.
+task execute(type: JavaExec) {
+    main = System.getProperty("mainClass")
+    classpath = sourceSets.main.runtimeClasspath
+
+    systemProperties System.getProperties()
+    if (System.getProperty("exec.args") != null) {
+        args System.getProperty("exec.args").split()
+    }
+}
+
+//Necessary for generating uber-jar with all dependencies included.
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'com.herreratreib.gcp.covid.delta.CovidDeltaPipeline'
+    }
 }

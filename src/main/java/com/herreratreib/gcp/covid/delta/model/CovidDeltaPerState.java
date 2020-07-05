@@ -1,14 +1,18 @@
 package com.herreratreib.gcp.covid.delta.model;
 
+import org.apache.beam.sdk.coders.AvroCoder;
+import org.apache.beam.sdk.coders.DefaultCoder;
+
 import java.util.Date;
 import java.util.Map;
 
+@DefaultCoder(AvroCoder.class)
 public class CovidDeltaPerState {
     private String state;
     private Date initialDate;
     private Date finalDate;
-    private Map<Integer, Long> confirmedCasesDeltaPerWeek;
-    private Map<Integer, Long> deathsDeltaPerWeek;
+    private Map<String, Long> confirmedCasesDeltaPerWeek;
+    private Map<String, Long> deathsDeltaPerWeek;
 
     public String getState() {
         return state;
@@ -34,19 +38,19 @@ public class CovidDeltaPerState {
         this.finalDate = finalDate;
     }
 
-    public Map<Integer, Long> getConfirmedCasesDeltaPerWeek() {
+    public Map<String, Long> getConfirmedCasesDeltaPerWeek() {
         return confirmedCasesDeltaPerWeek;
     }
 
-    public void setConfirmedCasesDeltaPerWeek(final Map<Integer, Long> confirmedCasesDeltaPerWeek) {
+    public void setConfirmedCasesDeltaPerWeek(final Map<String, Long> confirmedCasesDeltaPerWeek) {
         this.confirmedCasesDeltaPerWeek = confirmedCasesDeltaPerWeek;
     }
 
-    public Map<Integer, Long> getDeathsDeltaPerWeek() {
+    public Map<String, Long> getDeathsDeltaPerWeek() {
         return deathsDeltaPerWeek;
     }
 
-    public void setDeathsDeltaPerWeek(final Map<Integer, Long> deathsDeltaPerWeek) {
+    public void setDeathsDeltaPerWeek(final Map<String, Long> deathsDeltaPerWeek) {
         this.deathsDeltaPerWeek = deathsDeltaPerWeek;
     }
 

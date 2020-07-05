@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CalculateCovidDeltaPerState extends DoFn<KV<String, Iterable<CovidData>>, CovidDeltaPerState> {
+    private static final String WEEK_PREFIX = "week_";
+
     @ProcessElement
     public void processElement(final ProcessContext context) {
         final KV<String, Iterable<CovidData>> inputPair = context.element();
@@ -23,24 +25,29 @@ public class CalculateCovidDeltaPerState extends DoFn<KV<String, Iterable<CovidD
         covidDataList.sort(Comparator.comparing(CovidData::getDate));
 
         // 2. [Calculate weekly deltas]
-        final Map<Integer, Long> confirmedCasesDeltaMap = new HashMap<>();
-        final Map<Integer, Long> deathsDeltaMap = new HashMap<>();
+        final Map<String, Long> confirmedCasesDeltaMap = new HashMap<>();
+        final Map<String, Long> deathsDeltaMap = new HashMap<>();
 
         int week = 0;
         long previousCases = 0;
         long previousDeaths = 0;
         for (int i = 0; i <= covidDataList.size(); i += 7) {
+            //If not enough days of data are left to complete one week, ignore those days.
+            if(i != 0 && i + 7 > covidDataList.size()) {
+                break;
+            }
+
             CovidData covidData = covidDataList.get(i);
 
             //confirmed cases
             Long currentCases = covidData.getConfirmedCases();
-            confirmedCasesDeltaMap.put(week,
+            confirmedCasesDeltaMap.put(WEEK_PREFIX + week,
                                        currentCases - previousCases);
             previousCases = currentCases;
 
             //deaths
             Long currentDeaths = covidData.getDeaths();
-            deathsDeltaMap.put(week,
+            deathsDeltaMap.put(WEEK_PREFIX + week,
                                currentDeaths - previousDeaths);
             previousDeaths = currentDeaths;
 
@@ -52,8 +59,8 @@ public class CalculateCovidDeltaPerState extends DoFn<KV<String, Iterable<CovidD
         covidDeltaPerState.setState(state);
         covidDeltaPerState.setInitialDate(covidDataList.get(0)
                                                        .getDate());
-        covidDeltaPerState.setInitialDate(covidDataList.get(covidDataList.size() - 1)
-                                                       .getDate());
+        covidDeltaPerState.setFinalDate(covidDataList.get(covidDataList.size() - 1)
+                                                     .getDate());
         covidDeltaPerState.setConfirmedCasesDeltaPerWeek(confirmedCasesDeltaMap);
         covidDeltaPerState.setDeathsDeltaPerWeek(deathsDeltaMap);
 

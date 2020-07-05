@@ -1,6 +1,7 @@
 package com.herreratreib.gcp.covid.delta;
 
 import com.google.api.services.bigquery.model.TableRow;
+import com.herreratreib.gcp.covid.delta.config.PipelineOptionsHelper;
 import com.herreratreib.gcp.covid.delta.model.CovidData;
 import com.herreratreib.gcp.covid.delta.bigquery.BigQueryHelper;
 import com.herreratreib.gcp.covid.delta.config.TableRowCoder;
@@ -10,7 +11,6 @@ import com.herreratreib.gcp.covid.delta.transforms.ConvertTableRowToCovidDataObj
 import com.herreratreib.gcp.covid.delta.transforms.LogOutput;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;
-import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.GroupByKey;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.values.KV;
@@ -18,9 +18,7 @@ import org.apache.beam.sdk.values.PCollection;
 
 public class CovidDeltaPipeline {
     public static void main(final String[] args) {
-        final CovidDeltaOptions options = PipelineOptionsFactory.fromArgs(args)
-                                                                .withValidation()
-                                                                .as(CovidDeltaOptions.class);
+        final CovidDeltaOptions options = PipelineOptionsHelper.getPipelineOptions(args);
         final Pipeline pipeline = Pipeline.create(options);
 
         // Registering custom Avro coder for TableRow class.
@@ -48,7 +46,7 @@ public class CovidDeltaPipeline {
         //*************************************** [OUTPUT (FOR NOW ONLY LOGGING)] ****************************************
         //****************************************************************************************************************
         covidDeltaPerStateData.apply(ParDo.of(new LogOutput()));
-    }
 
-    //TODO: implement logic to read option_bundles.
+        pipeline.run();
+    }
 }

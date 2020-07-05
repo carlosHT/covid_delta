@@ -1,5 +1,5 @@
 {
-  "projectId": "sandbox",
+  "projectId": "gcp-com-herrera-treib",
   "sourceDataset": "covid19_nyt",
   "sourceTable": "us_states"
 }

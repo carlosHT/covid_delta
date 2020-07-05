@@ -1,7 +1,11 @@
 package com.herreratreib.gcp.covid.delta.model;
 
+import org.apache.beam.sdk.coders.AvroCoder;
+import org.apache.beam.sdk.coders.DefaultCoder;
+
 import java.util.Date;
 
+@DefaultCoder(AvroCoder.class)
 public class CovidData {
     private Date date;
     private String state;

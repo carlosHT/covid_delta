@@ -3,23 +3,31 @@ This pipeline reads Covid data from the [The New York Times US Coronavirus Datab
 
 ####Local Execution
 
-TODO: write this.
+```
+./gradlew execute -DmainClass=com.herreratreib.gcp.covid.delta.CovidDeltaPipeline \
+                  -Dexec.args="--runner=DirectRunner \
+                               --project=localproject \
+                               --optionsBundle=covid19_by_state" \
+                  --debug-jvm
+```
 
 ####Generating a Template for Deployment in DataFlow
-1. On a Terminal window, go into "covid_delta/build/libs".
-2. Make sure the "covid_delta-LOCAL-SNAPSHOT-all.jar" file is there.
-3. Execute the following command:
+1. Run the shadowJar gradle task.
+2. On a Terminal window, go into "covid_delta/build/libs".
+3. Make sure the "covid_delta-LOCAL-SNAPSHOT-all.jar" file is there.
+4. Execute the following command:
    
     ```
    java -cp covid_delta-LOCAL-SNAPSHOT-all.jar com.herreratreib.gcp.covid.delta.CovidDeltaPipeline \
         --runner=DataFlowRunner \
-        --project=sandbox \
+        --project=gcp-com-herrera-treib \
         --region=us-central1 \
-        --pipelineOptionBundle=sandbox \
+        --optionsBundle=covid19_by_state \
         --numWorkers=2 \
         --maxNumWorkers=10 \
         --workerMachineType=n1-standard-1 \
-        --templateLocation=
+        --tempLocation=gs://gcp-com-herrera-treib/temp_files \
+        --templateLocation=gs://gcp-com-herrera-treib/dataflow_templates/covid_delta/07_05_2020
    ```
    
    <sub><sup>
