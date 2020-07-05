@@ -17,25 +17,26 @@ The pipeline calculates the weekly rate of change in confirmed cases and deaths 
 ```
 
 <h3>Generating a Template for Deployment in DataFlow</h3>
+
 1. Run the shadowJar gradle task.
 2. On a Terminal window, go into "covid_delta/build/libs".
 3. Make sure the "covid_delta-LOCAL-SNAPSHOT-all.jar" file is there.
 4. Execute the following command:
    
-```
-java -cp covid_delta-LOCAL-SNAPSHOT-all.jar com.herreratreib.gcp.covid.delta.CovidDeltaPipeline \
-    --runner=DataFlowRunner \
-    --project=gcp-com-herrera-treib \
-    --region=us-central1 \
-    --optionsBundle=covid19_by_state \
-    --numWorkers=2 \
-    --maxNumWorkers=10 \
-    --workerMachineType=n1-standard-1 \
-    --tempLocation=gs://gcp-com-herrera-treib/temp_files \
-    --templateLocation=gs://gcp-com-herrera-treib/dataflow_templates/covid_delta/07_05_2020
-```
+  ```
+  java -cp covid_delta-LOCAL-SNAPSHOT-all.jar com.herreratreib.gcp.covid.delta.CovidDeltaPipeline \
+      --runner=DataFlowRunner \
+      --project=gcp-com-herrera-treib \
+      --region=us-central1 \
+      --optionsBundle=covid19_by_state \
+      --numWorkers=2 \
+      --maxNumWorkers=10 \
+      --workerMachineType=n1-standard-1 \
+      --tempLocation=gs://gcp-com-herrera-treib/temp_files \
+      --templateLocation=gs://gcp-com-herrera-treib/dataflow_templates/covid_delta/07_05_2020
+  ```
    
    <sub>
-   Note: The "pipelineOptionBundle" defines a set of multiple options that are passed to the pipeline. Each option bundle is associated to a JSON file under the "deployment/pipeline_option_bundles" folder.
-   Some options have to be explicitly passed on the command line. 
+   Note: The "optionBundle" parameter defines a set of multiple options that are passed to the pipeline. Each option bundle is associated to a JSON file under the   "deployment/pipeline_option_bundles" folder.
+   Some options cannot be set via an option bundle and have to be explicitly passed on the command line. 
    </sub>
