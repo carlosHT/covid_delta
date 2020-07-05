@@ -1,7 +1,12 @@
-##Covid Delta
-This pipeline reads Covid data from the [The New York Times US Coronavirus Database](https://console.cloud.google.com/marketplace/product/the-new-york-times/covid19_us_cases) and calculates the weekly rate of change in confirmed cases and deaths per state in the United States.
+<h1>Covid Delta</h1>
 
-####Local Execution
+The CovidDelta pipeline reads Covid19 data from the [The New York Times US Coronavirus Database](https://console.cloud.google.com/marketplace/product/the-new-york-times/covid19_us_cases) dataset, which is made available as a [BigQuery Public Dataset](https://console.cloud.google.com/marketplace/browse?filter=solution-type:dataset&filter=category:covid19) for Covid19. 
+
+The pipeline calculates the weekly rate of change in confirmed cases and deaths per state in the United States.
+
+<sub>Note: This is a personal project which assumes the source data is accurate without any further investigation. Also, bugs might be present. This project is not to be used for extracting serious conclusions about anything Covid19 related.</sub>
+
+<h3>Local Execution</h3>
 
 ```
 ./gradlew execute -DmainClass=com.herreratreib.gcp.covid.delta.CovidDeltaPipeline \
@@ -11,7 +16,7 @@ This pipeline reads Covid data from the [The New York Times US Coronavirus Datab
                   --debug-jvm
 ```
 
-####Generating a Template for Deployment in DataFlow
+<h3>Generating a Template for Deployment in DataFlow</h3>
 1. Run the shadowJar gradle task.
 2. On a Terminal window, go into "covid_delta/build/libs".
 3. Make sure the "covid_delta-LOCAL-SNAPSHOT-all.jar" file is there.
@@ -30,7 +35,7 @@ This pipeline reads Covid data from the [The New York Times US Coronavirus Datab
         --templateLocation=gs://gcp-com-herrera-treib/dataflow_templates/covid_delta/07_05_2020
    ```
    
-   <sub><sup>
+   <sub>
    Note: The "pipelineOptionBundle" defines a set of multiple options that are passed to the pipeline. Each option bundle is associated to a JSON file under the "deployment/pipeline_option_bundles" folder.
    Some options have to be explicitly passed on the command line. 
-   </sup></sub>
+   </sub>
